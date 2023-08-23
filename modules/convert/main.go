@@ -12,7 +12,7 @@ import (
 )
 
 func Run(s Settings) error {
-	files, err := utils.GetImagesPaths(s.InputPath, false)
+	files, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
 		return err
 	}
