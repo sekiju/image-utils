@@ -24,5 +24,5 @@ func init() {
 	Command.Flags().StringVarP(&s.OutputPath, "output", "o", "", "Output folder")
 	Command.Flags().BoolVar(&s.IncludeSubDirectories, "include_sub_directories", false, "")
 	Command.Flags().StringVarP(&s.Format, "format", "f", "png", "")
-	Command.Flags().UintVar(&s.Quality, "quality", uint(90), "JPEG image quality")
+	Command.Flags().UintVarP(&s.Quality, "quality", "q", uint(90), "JPEG image quality")
 }
