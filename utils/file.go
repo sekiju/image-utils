@@ -30,6 +30,7 @@ var acceptedImageExtensions = map[string]bool{
 	".png":  true,
 	".jpg":  true,
 	".jpeg": true,
+	".psd":  true,
 }
 
 func GetImagesPaths(folder string, includeSubDirectories bool) ([]string, error) {
@@ -90,4 +91,13 @@ func CreateDirectoryIfNotExists(p string) error {
 	}
 
 	return nil
+}
+
+func FileNamesFromPaths(s []string) []string {
+	var fileNames []string
+	for _, path := range s {
+		fileName := filepath.Base(path)
+		fileNames = append(fileNames, fileName)
+	}
+	return fileNames
 }

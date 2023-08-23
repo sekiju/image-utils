@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	_ "github.com/oov/psd"
 	"image"
 	"image/jpeg"
 	"image/png"
