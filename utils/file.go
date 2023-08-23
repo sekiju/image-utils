@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -77,4 +79,15 @@ func GetImagesPaths(folder string, includeSubDirectories bool) ([]string, error)
 
 func FileNameWithoutExt(fileName string) string {
 	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
+}
+
+func CreateDirectoryIfNotExists(p string) error {
+	if _, err := os.Stat(p); errors.Is(err, os.ErrNotExist) {
+		err := os.MkdirAll(p, os.ModePerm)
+		if err != nil {
+			return fmt.Errorf("failed to create folder: %w", err)
+		}
+	}
+
+	return nil
 }

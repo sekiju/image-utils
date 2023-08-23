@@ -5,7 +5,6 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/schollz/progressbar/v3"
 	"github.com/sekiju/image_utils/utils"
-	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -21,9 +20,9 @@ func Run(s Settings) error {
 		s.OutputPath = s.InputPath
 	}
 
-	err = os.MkdirAll(s.OutputPath, 0o755)
+	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
-		return fmt.Errorf("failed to create folder: %w", err)
+		return err
 	}
 
 	imageChan := make(chan string)

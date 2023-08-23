@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/schollz/progressbar/v3"
 	"github.com/sekiju/image_utils/utils"
-	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -25,11 +24,9 @@ func Run(s Settings) error {
 		return err
 	}
 
-	if _, err := os.Stat(s.OutputPath); os.IsNotExist(err) {
-		err := os.Mkdir(s.OutputPath, 0755)
-		if err != nil {
-			fmt.Println(err)
-		}
+	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
+	if err != nil {
+		return err
 	}
 
 	wg := &sync.WaitGroup{}

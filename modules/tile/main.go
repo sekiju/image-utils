@@ -26,9 +26,9 @@ func Run(s Settings) error {
 		isOutPathNotSetted = true
 	}
 
-	err = os.MkdirAll(s.OutputPath, 0o755)
+	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
-		return fmt.Errorf("failed to create folder: %w", err)
+		return err
 	}
 
 	startTime := time.Now()
