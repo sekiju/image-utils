@@ -26,4 +26,5 @@ func init() {
 	Command.Flags().UintVar(&s.Width, "width", 0, "")
 	Command.Flags().UintVar(&s.Height, "height", 0, "")
 	Command.Flags().UintVarP(&s.Percent, "percent", "p", 0, "")
+	Command.Flags().StringVarP(&s.ResampleFilter, "filter", "f", "box", "")
 }

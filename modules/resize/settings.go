@@ -13,9 +13,8 @@ type Settings struct {
 	Width                 uint   `json:"width"`
 	Height                uint   `json:"height"`
 	Percent               uint   `json:"percent"`
+	ResampleFilter        string `json:"resample_filter"`
 }
-
-// todo: Resample Filter
 
 func (s Settings) Validate() error {
 	return validation.ValidateStruct(&s,
@@ -24,5 +23,6 @@ func (s Settings) Validate() error {
 		validation.Field(&s.Width, validation.Min(uint(1))),
 		validation.Field(&s.Height, validation.Min(uint(1))),
 		validation.Field(&s.Percent, validation.Min(uint(1)), validation.Max(uint(100))),
+		validation.Field(&s.ResampleFilter, validation.In("nearest_neighbor", "box", "linear", "hermite", "mitchell_netravali", "catmull_rom", "bspline", "gaussian", "bartlett", "lanczos", "hann", "hamming", "blackman", "welch", "cosine")),
 	)
 }

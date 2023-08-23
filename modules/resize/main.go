@@ -10,6 +10,24 @@ import (
 	"time"
 )
 
+var AcceptedFilters = map[string]imaging.ResampleFilter{
+	"nearest_neighbor":   imaging.NearestNeighbor,
+	"box":                imaging.Box,
+	"linear":             imaging.Linear,
+	"hermite":            imaging.Hermite,
+	"mitchell_netravali": imaging.MitchellNetravali,
+	"catmull_rom":        imaging.CatmullRom,
+	"bspline":            imaging.BSpline,
+	"gaussian":           imaging.Gaussian,
+	"bartlett":           imaging.Bartlett,
+	"lanczos":            imaging.Lanczos,
+	"hann":               imaging.Hann,
+	"hamming":            imaging.Hamming,
+	"blackman":           imaging.Blackman,
+	"welch":              imaging.Welch,
+	"cosine":             imaging.Cosine,
+}
+
 func Run(s Settings) error {
 	imagePaths, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
@@ -90,7 +108,7 @@ func executeOnFile(inputPath string, s Settings) {
 		}
 	}
 
-	resizedImg := imaging.Resize(img, w, h, imaging.Box)
+	resizedImg := imaging.Resize(img, w, h, AcceptedFilters[s.ResampleFilter])
 	outputPath := filepath.Join(s.OutputPath, filepath.Base(inputPath))
 
 	err = utils.SavePNG(outputPath, resizedImg)
