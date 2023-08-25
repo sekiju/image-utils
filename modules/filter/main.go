@@ -73,11 +73,27 @@ func executeOnFile(file *File, pg *utils.PageName, s Settings) {
 
 	width, height := img.Bounds().Dx(), img.Bounds().Dy()
 
+	if len(s.PrimarySide) > 0 {
+		if s.PrimarySide == "width" && height > width {
+			return
+		} else if s.PrimarySide == "height" && width > height {
+			return
+		}
+	}
+
 	if s.MinimalWidth > 0 && width < int(s.MinimalWidth) {
 		return
 	}
 
 	if s.MinimalHeight > 0 && height < int(s.MinimalHeight) {
+		return
+	}
+
+	if s.MaximalWidth > 0 && width > int(s.MaximalWidth) {
+		return
+	}
+
+	if s.MaximalHeight > 0 && height > int(s.MaximalHeight) {
 		return
 	}
 

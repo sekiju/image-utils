@@ -24,6 +24,9 @@ func init() {
 	Command.Flags().StringVarP(&s.OutputPath, "output", "o", "", "Output folder")
 	Command.Flags().UintVar(&s.MinimalWidth, "minimal_width", uint(0), "")
 	Command.Flags().UintVar(&s.MinimalHeight, "minimal_height", uint(0), "")
+	Command.Flags().UintVar(&s.MaximalWidth, "maximal_width", uint(0), "")
+	Command.Flags().UintVar(&s.MaximalHeight, "maximal_height", uint(0), "")
 	Command.Flags().BoolVar(&s.IncludeSubDirectories, "include_sub_directories", false, "")
 	Command.Flags().BoolVar(&s.IndexNaming, "index_naming", false, "Files will be renamed to index: 001.png ... 013.png")
+	Command.Flags().StringVar(&s.PrimarySide, "primary_side", "", "Skip if the opposite side is larger than the main side")
 }
