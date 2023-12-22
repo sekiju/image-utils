@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/disintegration/imaging"
 	"github.com/schollz/progressbar/v3"
-	"github.com/sekiju/image_utils/utils"
+	utils2 "github.com/sekiju/image_utils/internal/utils"
 	"path/filepath"
 	"sync"
 	"time"
@@ -29,7 +29,7 @@ var AcceptedFilters = map[string]imaging.ResampleFilter{
 }
 
 func Run(s Settings) error {
-	imagePaths, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
+	imagePaths, err := utils2.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
 		return err
 	}
@@ -38,7 +38,7 @@ func Run(s Settings) error {
 		s.OutputPath = s.InputPath
 	}
 
-	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
+	err = utils2.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func worker(imagePathChan <-chan string, waitGroup *sync.WaitGroup, s Settings) 
 }
 
 func executeOnFile(inputPath string, s Settings) {
-	img, err := utils.ReadImageToStruct(inputPath)
+	img, err := utils2.ReadImageToStruct(inputPath)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -111,7 +111,7 @@ func executeOnFile(inputPath string, s Settings) {
 	resizedImg := imaging.Resize(img, w, h, AcceptedFilters[s.ResampleFilter])
 	outputPath := filepath.Join(s.OutputPath, filepath.Base(inputPath))
 
-	err = utils.SavePNG(outputPath, resizedImg)
+	err = utils2.SavePNG(outputPath, resizedImg)
 	if err != nil {
 		fmt.Print(err)
 	}

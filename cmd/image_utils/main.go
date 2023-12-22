@@ -1,15 +1,19 @@
-package modules
+package main
 
 import (
-	"github.com/sekiju/image_utils/modules/convert"
-	"github.com/sekiju/image_utils/modules/filter"
-	"github.com/sekiju/image_utils/modules/resize"
-	"github.com/sekiju/image_utils/modules/tile"
+	"github.com/sekiju/image_utils/internal/modules/convert"
+	"github.com/sekiju/image_utils/internal/modules/filter"
+	"github.com/sekiju/image_utils/internal/modules/resize"
+	"github.com/sekiju/image_utils/internal/modules/tile"
 	"github.com/spf13/cobra"
 )
 
 var root = &cobra.Command{
 	Use: "image_utils",
+}
+
+func main() {
+	root.Execute()
 }
 
 func init() {
@@ -20,8 +24,4 @@ func init() {
 	root.AddCommand(resize.Command)
 	root.AddCommand(filter.Command)
 	root.AddCommand(convert.Command)
-}
-
-func Execute() {
-	root.Execute()
 }

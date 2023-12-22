@@ -5,7 +5,6 @@ go 1.20
 require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
-	github.com/h2non/bimg v1.1.9
 	github.com/schollz/progressbar/v3 v3.13.1
 	github.com/spf13/cobra v1.7.0
 )

@@ -3,7 +3,7 @@ package convert
 import (
 	"fmt"
 	"github.com/schollz/progressbar/v3"
-	"github.com/sekiju/image_utils/utils"
+	utils2 "github.com/sekiju/image_utils/internal/utils"
 	"image/jpeg"
 	"path/filepath"
 	"sync"
@@ -11,12 +11,12 @@ import (
 )
 
 func Run(s Settings) error {
-	files, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
+	files, err := utils2.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
 		return err
 	}
 
-	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
+	err = utils2.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
 		return err
 	}
@@ -56,18 +56,18 @@ func worker(imagePathChan <-chan string, wg *sync.WaitGroup, s Settings) {
 }
 
 func executeOnFile(inputPath string, s Settings) {
-	img, err := utils.ReadImageToStruct(inputPath)
+	img, err := utils2.ReadImageToStruct(inputPath)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fileName := utils.FileNameWithoutExt(filepath.Base(inputPath))
+	fileName := utils2.FileNameWithoutExt(filepath.Base(inputPath))
 
 	if s.Format == "jpeg" {
 		outputPath := filepath.Join(s.OutputPath, fmt.Sprintf("%s.jpeg", fileName))
 
-		err = utils.SaveJPEG(outputPath, img, &jpeg.Options{
+		err = utils2.SaveJPEG(outputPath, img, &jpeg.Options{
 			Quality: int(s.Quality),
 		})
 		if err != nil {
@@ -75,7 +75,7 @@ func executeOnFile(inputPath string, s Settings) {
 		}
 	} else {
 		outputPath := filepath.Join(s.OutputPath, fmt.Sprintf("%s.png", fileName))
-		err = utils.SavePNG(outputPath, img)
+		err = utils2.SavePNG(outputPath, img)
 		if err != nil {
 			fmt.Print(err)
 		}

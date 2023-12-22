@@ -3,7 +3,7 @@ package filter
 import (
 	"fmt"
 	"github.com/schollz/progressbar/v3"
-	"github.com/sekiju/image_utils/utils"
+	utils2 "github.com/sekiju/image_utils/internal/utils"
 	"path/filepath"
 	"sync"
 	"time"
@@ -19,12 +19,12 @@ func newFile(p string, i int) *File {
 }
 
 func Run(s Settings) error {
-	files, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
+	files, err := utils2.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
 		return err
 	}
 
-	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
+	err = utils2.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
 		return err
 	}
@@ -33,7 +33,7 @@ func Run(s Settings) error {
 	fileChan := make(chan *File)
 	startTime := time.Now()
 
-	pn := utils.NewPageName(len(files))
+	pn := utils2.NewPageName(len(files))
 	for i := 0; i < int(s.Threads); i++ {
 		wg.Add(1)
 		go worker(fileChan, wg, pn, s)
@@ -56,7 +56,7 @@ func Run(s Settings) error {
 	return nil
 }
 
-func worker(imagePathChan <-chan *File, wg *sync.WaitGroup, pg *utils.PageName, s Settings) {
+func worker(imagePathChan <-chan *File, wg *sync.WaitGroup, pg *utils2.PageName, s Settings) {
 	for imagePath := range imagePathChan {
 		executeOnFile(imagePath, pg, s)
 	}
@@ -64,8 +64,8 @@ func worker(imagePathChan <-chan *File, wg *sync.WaitGroup, pg *utils.PageName, 
 	wg.Done()
 }
 
-func executeOnFile(file *File, pg *utils.PageName, s Settings) {
-	img, err := utils.ReadImageToStruct(file.Path)
+func executeOnFile(file *File, pg *utils2.PageName, s Settings) {
+	img, err := utils2.ReadImageToStruct(file.Path)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -104,7 +104,7 @@ func executeOnFile(file *File, pg *utils.PageName, s Settings) {
 	}
 
 	outputFile := filepath.Join(s.OutputPath, fileName)
-	err = utils.CopyFile(file.Path, outputFile)
+	err = utils2.CopyFile(file.Path, outputFile)
 	if err != nil {
 		fmt.Println(err)
 	}
