@@ -32,5 +32,7 @@ jobs:
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         asset_name: "image_utils_${{ matrix.goos }}_${{ matrix.goarch }}"
-        md5sum: FALSE
-        compress_assets: FALSE
+        md5sum: false
+        compress_assets: false
+        project_path: "./cmd/image_utils"
+        extra_files: README.md
