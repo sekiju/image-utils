@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/disintegration/imaging"
 	"github.com/schollz/progressbar/v3"
-	utils2 "github.com/sekiju/image_utils/internal/utils"
+	"github.com/sekiju/image_utils/internal/utils"
 	"image"
 	_ "image/jpeg"
 	"os"
@@ -15,7 +15,7 @@ import (
 )
 
 func Run(s Settings) error {
-	imagePaths, err := utils2.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
+	imagePaths, err := utils.GetImagesPaths(s.InputPath, s.IncludeSubDirectories)
 	if err != nil {
 		return err
 	}
@@ -26,7 +26,7 @@ func Run(s Settings) error {
 		isOutPathNotSetted = true
 	}
 
-	err = utils2.CreateDirectoryIfNotExists(s.OutputPath)
+	err = utils.CreateDirectoryIfNotExists(s.OutputPath)
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func worker(imagePathChan <-chan string, waitGroup *sync.WaitGroup, isOutPathNot
 }
 
 func executeOnFile(inputPath string, s Settings) {
-	img, err := utils2.ReadImageToStruct(inputPath)
+	img, err := utils.ReadImageToStruct(inputPath)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -107,14 +107,14 @@ func executeOnFile(inputPath string, s Settings) {
 
 			tile := imaging.Crop(img, image.Rect(x, y, x+tileSize, y+tileSize))
 
-			if s.SkipBlackWhite && utils2.IsFullyBlackOrWhiteImage(tile) {
+			if s.SkipBlackWhite && utils.IsFullyBlackOrWhiteImage(tile) {
 				continue
 			}
 
 			tileFileName := fmt.Sprintf("%s_tile_%d_%d.png", baseName, row, col)
 			tileFilePath := filepath.Join(s.OutputPath, tileFileName)
 
-			err = utils2.SavePNG(tileFilePath, tile)
+			err = utils.SavePNG(tileFilePath, tile)
 			if err != nil {
 				fmt.Print(err)
 				return
