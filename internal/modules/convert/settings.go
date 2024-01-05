@@ -12,6 +12,7 @@ type Settings struct {
 	IncludeSubDirectories bool   `json:"include_sub_directories"`
 	Format                string `json:"format"`
 	Quality               uint   `json:"quality"`
+	Mode                  string `json:"mode"`
 }
 
 func (s Settings) Validate() error {
@@ -21,5 +22,6 @@ func (s Settings) Validate() error {
 		validation.Field(&s.Threads, validation.Min(uint(1)), validation.Max(uint(runtime.NumCPU()))),
 		validation.Field(&s.Format, validation.In("png", "jpeg")),
 		validation.Field(&s.Quality, validation.Min(uint(1)), validation.Max(uint(100))),
+		validation.Field(&s.Mode, validation.In("original", "rgb", "gray")),
 	)
 }
